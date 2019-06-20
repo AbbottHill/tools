@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--设置log4j2的自身log级别为OFF-->
+<configuration status="OFF">
+    <properties>
+        <property name="LOG_HOME">logs/test-tools/</property>
+        <property name="INFO_FILE_NAME">info</property>
+        <property name="DEBUG_FILE_NAME">debug</property>
+        <property name="ERROR_FILE_NAME">error</property>
+    </properties>
+    <appenders>
+        <console name="Console" target="SYSTEM_OUT">
+            <!--控制台只输出level及以上级别的信息（ACCEPT），其他的直接拒绝（DENY）-->
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!--这个都知道是输出日志的格式-->
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %p %class{0} %M %L - %m%n"/>
+        </console>
+
+        <RollingFile name="RollingFileInfo" fileName="${LOG_HOME}${INFO_FILE_NAME}.log"
+                     filePattern="${LOG_HOME}${INFO_FILE_NAME}-%i.log">
+            <Filters>
+                <ThresholdFilter level="INFO"/>
+                <!--<ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>-->
+            </Filters>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %p %class{0} %M %L - %m%n"/>
+            <SizeBasedTriggeringPolicy size="30MB"/>
+            <!-- 最多保留文件数 -->
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+
+        <RollingFile name="RollingFileDebug" fileName="${LOG_HOME}${DEBUG_FILE_NAME}.log"
+                     filePattern="${LOG_HOME}${DEBUG_FILE_NAME}-%i.log">
+            <Filters>
+                <ThresholdFilter level="DEBUG"/>
+                <!--<ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL"/>-->
+            </Filters>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %p %class{0} %M %L - %m%n"/>
+            <SizeBasedTriggeringPolicy size="30MB"/>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+
+        <RollingFile name="RollingFileError" fileName="${LOG_HOME}${ERROR_FILE_NAME}.log"
+                     filePattern="${LOG_HOME}${ERROR_FILE_NAME}-%i.log">
+            <ThresholdFilter level="ERROR"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %p %class{0} %M %L - %m%n"/>
+            <SizeBasedTriggeringPolicy size="30MB"/>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+
+    </appenders>
+
+    <loggers>
+        <root level="INFO">
+            <!--部署生产环境时，控制台无需打印，注释该行-->
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFileInfo"/>
+            <appender-ref ref="RollingFileDebug"/>
+            <appender-ref ref="RollingFileError"/>
+        </root>
+    </loggers>
+
+</configuration>
