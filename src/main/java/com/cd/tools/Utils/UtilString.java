@@ -1,4 +1,4 @@
-package com.cd.tools.Utils;
+package com.cd.tools.utils;
 
 import java.util.Objects;
 

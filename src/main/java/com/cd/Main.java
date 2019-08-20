@@ -75,4 +75,17 @@ public class Main {
 //            e.printStackTrace();
 //        }
 //    }
+
+    public static void main(String[] args) {
+        System.out.println("select t2.f_add_person, t3.card_num, f_photo,t1.f_yw_primary, t4.f_platform,t4.f_system,t4.f_model from t_ah_rx_photo t1 " +
+                " left join t_ah_rxcj  t2 on t1.f_yw_primary = t2.f_id" +
+                " left join t_ewt_user t3 on t2.f_add_person = t3.user_id" +
+                " left join (select tfpw.f_model,tfpw.f_system,tfpw.f_user_id, tfpw.f_platform from (select max(f_add_time) as add_time, count(*), tpf.f_user_id from t_ah_user_platform tpf" +
+                " group by tpf.f_user_id) a1 left join t_ah_user_platform tfpw" +
+                " on (a1.add_time = tfpw.f_add_time" +
+                " and a1.f_user_id = tfpw.f_user_id)) t4 on t3.user_id = t4.f_user_id" +
+                " where  t1.f_add_time >  '20190507000000'" +
+                " and t3.card_num like '34%'");
+    }
+
 }

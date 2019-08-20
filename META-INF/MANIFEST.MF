@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: com.cd.tools.ojdbc.DealIdCardPic
+Main-Class: com.cd.tools.work.DealIdCardPic
 
